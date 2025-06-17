@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+# Deployment - объект, управляющий состоянием подов
+kind: Deployment
+metadata:
+  # позволяет обращаться как kubectl get deployments
+  name: k8s-web-hello
+spec:
+  replicas: 5
+  selector: 
+    # Deployment находит поды, которыми он должен управлять
+    matchLabels:
+      app: k8s-web-hello
+  # шаблон пода
+  template:
+    metadata:
+      # метки для подов, создаваемых этим шаблоном
+      labels:
+        app: k8s-web-hello
+    # cпецификация контейнера\ов внутри пода
+    spec:
+      # список контейнеров внутри пода
+      containers:
+      - name: k8s-web-hello
+        image: clark666/k8s-web-hello
+        resources:
+          limits:
+            memory: "128Mi"  #максимальное использование памяти
+            cpu: "500m" # половина cpu
+        ports:
+          # открытый порт внутри контейнера
+        - containerPort: 3000
